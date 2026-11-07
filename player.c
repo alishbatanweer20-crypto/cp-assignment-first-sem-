@@ -43,10 +43,10 @@ int login(void)
     int i;                      // counting box
 
     for (i = 1; i <= 3; i++)    // count 1, 2, 3
-    {
+    { // we arent using & in scanf bcz user already means “address of the first letter” as it is an array
         printf("Username: ");   // ask the user name
         scanf("%29s", user);    // listen for one word
-        printf("Password: ");   // ask the password
+        printf("Password: ");   // ask the password 
         scanf("%29s", pass);    // listen for one word
         if (strcmp(user, "admin") == 0 && strcmp(pass, "cricket123") == 0)   // both words must be the same
         {
@@ -58,12 +58,12 @@ int login(void)
 }
 
 // findById: finds where a player sits (-1 means not found)
-int findById(struct Player p[], int count, int id)
+int findById(struct Player p[], int count, int id) //beinng used in recurssion in addPlayer, searchPlayer, updatePlayer, deletePlayer
 {
     int i;                          // counting box
     for (i = 0; i < count; i++)     // look at every player
     {
-        if (p[i].id == id)          // is this the id we want?
+        if (p[i].id == id)          // is this the id we want?, p[i].id is struct(means id of palyer at index i)
         {
             return i;               // give back his place number
         }
