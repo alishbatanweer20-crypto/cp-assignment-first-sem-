@@ -79,7 +79,7 @@ void swap(struct Player *a, struct Player *b)
     *b = temp;                  // put the spare copy in b's place
 }
 
-// printRow: prints one player as one line of the table
+// printRow: prints one player as one line of the table - row with all deets of each player
 void printRow(struct Player *p)
 {
     printf("%-6d %-15s %-8d %-8d %-8d %-8.2f %d\n", p->id, p->name,
@@ -92,7 +92,7 @@ void printHeader(void)
     printf("\nID     Name            Matches  Runs     Wickets  Average  Role(1=Bat 2=Bowl 3=All)\n");
 }
 
-// addPlayer: adds a new player
+// addPlayer: adds a new player - main ****CASE 1*****
 void addPlayer(struct Player p[], int *count)
 {
     struct Player n;                // a new empty player card
@@ -121,7 +121,7 @@ void addPlayer(struct Player p[], int *count)
     printf("Player added.\n");
 }
 
-// displayAll: shows every player
+// displayAll: shows every player - main ********CASE 2*****
 void displayAll(struct Player p[], int count)
 {
     int i;                          // counting box
@@ -137,7 +137,7 @@ void displayAll(struct Player p[], int count)
     }
 }
 
-// searchPlayer: looks for a player by id or by name
+// searchPlayer: looks for a player by id or by name - main ********CASE 3*****
 void searchPlayer(struct Player p[], int count)
 {
     int i, found = 0, choice, id;   // found = 0 means not found yet
@@ -202,7 +202,7 @@ void deletePlayer(struct Player p[], int *count)
         printf("Not found.\n");
         return;
     }
-    for (; i < *count - 1; i++)     // start from his seat
+    for (; i < *count - 1; i++)     // start from his seat (learn from array element deletion)
     {
         p[i] = p[i + 1];            // next player moves one seat up
     }
@@ -244,7 +244,7 @@ void sortAndReport(struct Player p[], int count)
     // find the best players
     for (i = 1; i < count; i++)
     {
-        if (p[i].runs > topRuns->runs)              // more runs than the best so far
+        if (p[i].runs > topRuns->runs)              // more runs than the best so far  - arrow is used bcz topruns is a pointer so the arrow tells it to go to runs and fetch the value of the player.
         {
             topRuns = &p[i];                        // point my finger at him
         }
