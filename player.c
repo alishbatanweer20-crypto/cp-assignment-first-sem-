@@ -43,10 +43,10 @@ int login(void)
     int i;                      // counting box
 
     for (i = 1; i <= 3; i++)    // count 1, 2, 3
-    { // we arent using & in scanf bcz user already means “address of the first letter” as it is an array
+    {
         printf("Username: ");   // ask the user name
         scanf("%29s", user);    // listen for one word
-        printf("Password: ");   // ask the password 
+        printf("Password: ");   // ask the password
         scanf("%29s", pass);    // listen for one word
         if (strcmp(user, "admin") == 0 && strcmp(pass, "cricket123") == 0)   // both words must be the same
         {
@@ -58,12 +58,12 @@ int login(void)
 }
 
 // findById: finds where a player sits (-1 means not found)
-int findById(struct Player p[], int count, int id) //beinng used in recurssion in addPlayer, searchPlayer, updatePlayer, deletePlayer
+int findById(struct Player p[], int count, int id)
 {
     int i;                          // counting box
     for (i = 0; i < count; i++)     // look at every player
     {
-        if (p[i].id == id)          // is this the id we want?, p[i].id is struct(means id of palyer at index i)
+        if (p[i].id == id)          // is this the id we want?
         {
             return i;               // give back his place number
         }
@@ -79,7 +79,7 @@ void swap(struct Player *a, struct Player *b)
     *b = temp;                  // put the spare copy in b's place
 }
 
-// printRow: prints one player as one line of the table - row with all deets of each player
+// printRow: prints one player as one line of the table
 void printRow(struct Player *p)
 {
     printf("%-6d %-15s %-8d %-8d %-8d %-8.2f %d\n", p->id, p->name,
@@ -92,7 +92,7 @@ void printHeader(void)
     printf("\nID     Name            Matches  Runs     Wickets  Average  Role(1=Bat 2=Bowl 3=All)\n");
 }
 
-// addPlayer: adds a new player - main ****CASE 1*****
+// addPlayer: adds a new player
 void addPlayer(struct Player p[], int *count)
 {
     struct Player n;                // a new empty player card
@@ -121,7 +121,7 @@ void addPlayer(struct Player p[], int *count)
     printf("Player added.\n");
 }
 
-// displayAll: shows every player - main ********CASE 2*****
+// displayAll: shows every player
 void displayAll(struct Player p[], int count)
 {
     int i;                          // counting box
@@ -137,7 +137,7 @@ void displayAll(struct Player p[], int count)
     }
 }
 
-// searchPlayer: looks for a player by id or by name - main ********CASE 3*****
+// searchPlayer: looks for a player by id or by name
 void searchPlayer(struct Player p[], int count)
 {
     int i, found = 0, choice, id;   // found = 0 means not found yet
@@ -202,7 +202,7 @@ void deletePlayer(struct Player p[], int *count)
         printf("Not found.\n");
         return;
     }
-    for (; i < *count - 1; i++)     // start from his seat (learn from array element deletion)
+    for (; i < *count - 1; i++)     // start from his seat
     {
         p[i] = p[i + 1];            // next player moves one seat up
     }
@@ -244,7 +244,7 @@ void sortAndReport(struct Player p[], int count)
     // find the best players
     for (i = 1; i < count; i++)
     {
-        if (p[i].runs > topRuns->runs)              // more runs than the best so far  - arrow is used bcz topruns is a pointer so the arrow tells it to go to runs and fetch the value of the player.
+        if (p[i].runs > topRuns->runs)              // more runs than the best so far
         {
             topRuns = &p[i];                        // point my finger at him
         }
@@ -255,54 +255,4 @@ void sortAndReport(struct Player p[], int count)
     }
     printf("\nTop run-scorer  : %s (%d runs)\n", topRuns->name, topRuns->runs);
     printf("Top wicket-taker: %s (%d wickets)\n", topWickets->name, topWickets->wickets);
-}
-
-// loadFile: reads the notebook when the program starts
-void loadFile(struct Player p[], int *count)
-{
-    FILE *fp = fopen(FILE_NAME, "r");   // open the notebook for reading
-    struct Player n;                    // an empty player card to fill
-
-    if (fp == NULL)                     // notebook could not be opened
-    {
-        perror("Cannot open file");     // say the reason
-        return;
-    }
-    while (*count < MAX_PLAYERS &&      // while there is space AND
-           fscanf(fp, "%d %29s %d %d %d %d", &n.id, n.name, &n.matches,
-                  &n.runs, &n.wickets, &n.role) == 6)   // one full line was read
-    {
-        if (n.matches > 0)              // matches more than 0
-        {
-            n.average = (float)n.runs / n.matches;
-        }
-        else                            // do not divide by 0
-        {
-            n.average = 0;
-        }
-        p[*count] = n;                  // put the card in the next seat
-        (*count)++;                     // add 1 to the counter
-    }
-    fclose(fp);                         // close the notebook
-    printf("%d record(s) loaded.\n", *count);
-}
-
-// saveFile: writes all players in the notebook
-void saveFile(struct Player p[], int count)
-{
-    FILE *fp = fopen(FILE_NAME, "w");   // open the notebook for writing
-    int i;                              // counting box
-
-    if (fp == NULL)                     // notebook could not be opened
-    {
-        perror("Cannot save file");
-        return;
-    }
-    for (i = 0; i < count; i++)         // go through every player
-    {
-        fprintf(fp, "%d %s %d %d %d %d\n", p[i].id, p[i].name,
-                p[i].matches, p[i].runs, p[i].wickets, p[i].role);   // write one line
-    }
-    fclose(fp);                         // close the notebook
-    printf("%d record(s) saved.\n", count);
 }
