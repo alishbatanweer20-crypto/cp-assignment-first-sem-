@@ -1,6 +1,7 @@
 // player.h - player card design, constants and function names
 
 #define MAX_PLAYERS 100                   // we can keep 100 players
+#define FILE_NAME "player_records.txt"    // the name of our notebook file
 
 struct Player                             // the player card design
 {
@@ -24,3 +25,6 @@ void searchPlayer(struct Player p[], int count);           // looks for a player
 void updatePlayer(struct Player p[], int count);           // changes a player's numbers
 void deletePlayer(struct Player p[], int *count);          // removes a player
 void sortAndReport(struct Player p[], int count);          // puts players in order and shows the best ones
+
+void loadFile(struct Player p[], int *count);              // reads players from the notebook file
+void saveFile(struct Player p[], int count);               // writes players into the notebook file

@@ -15,12 +15,13 @@ int main(void)                      // the program always starts here
         printf("Access denied.\n");
         return 1;                           // stop the program
     }
+    loadFile(players, &count);              // read the old players from the notebook
 
     do                                      // do this at least one time
     {
         printf("\n1. Add  2. Display  3. Search  4. Update\n");
-        printf("5. Delete  6. Sort & Report  0. Exit\n");
-        choice = getInt("Choice: ", 0, 6);          // ask for a number from 0 to 6
+        printf("5. Delete  6. Sort & Report  7. Save  0. Exit\n");
+        choice = getInt("Choice: ", 0, 7);          // ask for a number from 0 to 7
 
         switch (choice)                     // jump to the matching door
         {
@@ -30,6 +31,8 @@ int main(void)                      // the program always starts here
             case 4: updatePlayer(players, count);    break;   // 4: update
             case 5: deletePlayer(players, &count);   break;   // 5: delete
             case 6: sortAndReport(players, count);   break;   // 6: sort and best players
+            case 7: saveFile(players, count);        break;   // 7: save to the notebook
+            case 0: saveFile(players, count);        break;   // 0: save before leaving
         }
     } while (choice != 0);                  // show the menu again, unless you picked 0
 

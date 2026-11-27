@@ -256,3 +256,52 @@ void sortAndReport(struct Player p[], int count)
     printf("\nTop run-scorer  : %s (%d runs)\n", topRuns->name, topRuns->runs);
     printf("Top wicket-taker: %s (%d wickets)\n", topWickets->name, topWickets->wickets);
 }
+// loadFile: reads the notebook when the program starts
+void loadFile(struct Player p[], int *count)
+{
+    FILE *fp = fopen(FILE_NAME, "r");   // open the notebook for reading
+    struct Player n;                    // an empty player card to fill
+
+    if (fp == NULL)                     // notebook could not be opened
+    {
+        perror("Cannot open file");     // say the reason
+        return;
+    }
+    while (*count < MAX_PLAYERS &&      // while there is space AND
+           fscanf(fp, "%d %29s %d %d %d %d", &n.id, n.name, &n.matches,
+                  &n.runs, &n.wickets, &n.role) == 6)   // one full line was read
+    {
+        if (n.matches > 0)              // matches more than 0
+        {
+            n.average = (float)n.runs / n.matches;
+        }
+        else                            // do not divide by 0
+        {
+            n.average = 0;
+        }
+        p[*count] = n;                  // put the card in the next seat
+        (*count)++;                     // add 1 to the counter
+    }
+    fclose(fp);                         // close the notebook
+    printf("%d record(s) loaded.\n", *count);
+}
+
+// saveFile: writes all players in the notebook
+void saveFile(struct Player p[], int count)
+{
+    FILE *fp = fopen(FILE_NAME, "w");   // open the notebook for writing
+    int i;                              // counting box
+
+    if (fp == NULL)                     // notebook could not be opened
+    {
+        perror("Cannot save file");
+        return;
+    }
+    for (i = 0; i < count; i++)         // go through every player
+    {
+        fprintf(fp, "%d %s %d %d %d %d\n", p[i].id, p[i].name,
+                p[i].matches, p[i].runs, p[i].wickets, p[i].role);   // write one line
+    }
+    fclose(fp);                         // close the notebook
+    printf("%d record(s) saved.\n", count);
+}
